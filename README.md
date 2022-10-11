@@ -1,2 +1,0 @@
-# Polynomes
-Classes Java Polynômes 
