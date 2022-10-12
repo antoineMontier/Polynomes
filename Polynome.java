@@ -1,11 +1,14 @@
 import java.util.*;
-public class Polynome{          //ajouter un tableau de signes / var / les deux condensé en un seul
+public class Polynome{              //ajouter un tableau de signes / var / les deux condensé en un seul
   public final static int DEG_MAX = 20;
   public final static double X_MIN = -1000;
   public final static double X_MAX = 1000; //périmètre de recherche de solutions
   public final static double PRECISION = 0.0001;//précision des recherches
-  //public final Interval vide = new Interval();
-  //attributs :
+
+
+
+
+  //attribut :
 
   private double c[] = new double[DEG_MAX];
 
@@ -30,18 +33,21 @@ public class Polynome{          //ajouter un tableau de signes / var / les deux 
     }
   }
   
+  
+  
   public Polynome(Polynome p){
     for(int i = 0 ; i <= p.deg() ; i++){
       c[i] = p.getCoef(i);
     }
   }
   
+  
+  
   //accesseurs :
   
   public int deg(){
     int e = DEG_MAX - 1;
     while(c[e] == 0 && e > 0){
-        
     e--;
     //System.out.println("c[e] " + c[e] + "  e = " + e);
     }
@@ -83,12 +89,6 @@ public class Polynome{          //ajouter un tableau de signes / var / les deux 
       }
     }
     return res;
-    
-    /*if(c[deg()] > 0){
-      return res + " + " + c[deg()] + "x^" + deg();
-    }else{
-      return res + " - " + (-c[deg()]) + "x^" + deg();
-    }*/
   }
   
   public double[] getCoefTab(){
@@ -119,7 +119,7 @@ public class Polynome{          //ajouter un tableau de signes / var / les deux 
     return r;
   }
   
-  public Polynome moins(Polynome g){
+  public Polynome minus(Polynome g){
     Polynome r = new Polynome();
     int m = Math.max(g.deg(), this.deg());
     for(int i = 0 ; i <= m ; i++){
@@ -149,7 +149,7 @@ public class Polynome{          //ajouter un tableau de signes / var / les deux 
     return r;
   }
   
-  public Polynome moins(double g){
+  public Polynome minus(double g){
     Polynome r = new Polynome(this);
     r.setCoef(0, r.getCoef(0) - g);
     return r;
@@ -163,7 +163,7 @@ public class Polynome{          //ajouter un tableau de signes / var / les deux 
     return r;
   }
 
-  public Polynome puis(int n){
+  public Polynome pow(int n){
     Polynome res = new Polynome(this);
     if(n < -1){
       System.out.println("la puissance doit être supérieure à 0");
@@ -178,7 +178,7 @@ public class Polynome{          //ajouter un tableau de signes / var / les deux 
     }
     return res;
   }
-
+/*
   public List root(){
     List<Double> s = new ArrayList<Double>();
     double d;
@@ -204,7 +204,7 @@ public class Polynome{          //ajouter un tableau de signes / var / les deux 
     return s;
   }
   
-  private void epurerlist(List<Double> l){
+  private void pureList(List<Double> l){
     if(!l.isEmpty()){
       for(int j = 0 ; j < l.size(); j++){
         for(int i = j+1 ; i < l.size() ; i++){
@@ -216,7 +216,7 @@ public class Polynome{          //ajouter un tableau de signes / var / les deux 
       }
     }
   }
-  
+  */
   
   private int sign(double e){
       if(e >= 0){
@@ -227,7 +227,7 @@ public class Polynome{          //ajouter un tableau de signes / var / les deux 
   
   
   
-  public List racines(){
+  public List root()){
     List<Double> s = new ArrayList<Double>();
 
     int signe = sign(im(X_MIN));//1 positif ou nul et 0 négatif
@@ -245,10 +245,10 @@ public class Polynome{          //ajouter un tableau de signes / var / les deux 
       }
       //System.out.println("condition for : " + Math.abs(getCoef(deg())*0.1) +" >= " + PRECISION);
       for(double pas = Math.abs(getCoef(deg())*PRECISION) ; pas >= PRECISION ; pas/=10){    //le pas est égal au coef du x de plus haut degré
-      //System.out.println("boucle for, pas réglé à " + pas);
+        //System.out.println("boucle for, pas réglé à " + pas);
         max = min + pas;
         while(sign(im(max)) == signe && max <= X_MAX){
-            //System.out.println("boucle while min = " + min + "  max = " + max);
+        //System.out.println("boucle while min = " + min + "  max = " + max);
           min += pas;
           max += pas;                             //tant que l'image de pas par f est toujours du meme signe on augmente le max et le min de "pas"
                                                   //System.out.println("min = " + min + "    pas = " + pas + "    max = " + max + "   signe = " +(im(max) >= 0));
@@ -261,7 +261,7 @@ public class Polynome{          //ajouter un tableau de signes / var / les deux 
         s.add(sAvg);
       }
     }
-    epurerlist(s);// RAJOUTER UN TRI DE LA LISTE !!!! il faut retirer les doublons et les elements proche de X_MAX
+    pureList(s);
     return s;
   }
   
@@ -269,7 +269,7 @@ public class Polynome{          //ajouter un tableau de signes / var / les deux 
   
   
   
-  public Polynome derivee(){
+  public Polynome derivate(){
     Polynome r = new Polynome();
     for(int i = 0 ; i < deg() ; i++){
       r.setCoef(i, (i+1)*c[i+1]);
@@ -292,8 +292,8 @@ public class Polynome{          //ajouter un tableau de signes / var / les deux 
   
   public List<Point> extremums(){
     List<Point> res = new ArrayList();//liste contenant des tableaux de coordonnées des extremums
-    List<Double> abs = new ArrayList(this.derivee().racines());//liste des abscisses
-    System.out.println(derivee());
+    List<Double> abs = new ArrayList(this.derivate().root()));//liste des abscisses
+    System.out.println(derivate());
     Point e = new Point();//liste des abscisses
     if(deg() <= 2){
       if(deg() == 2){
@@ -313,7 +313,7 @@ public class Polynome{          //ajouter un tableau de signes / var / les deux 
   }
   
   public Polynome tangente(double a){
-    Polynome r = new Polynome(derivee().im(a));
+    Polynome r = new Polynome(derivate().im(a));
     System.out.println(r);
     Polynome k = new Polynome();
     
@@ -326,7 +326,7 @@ public class Polynome{          //ajouter un tableau de signes / var / les deux 
   }
   
   public List<Interval> positif(){
-    List<Double> c = racines();                     //liste des racines
+    List<Double> c = root());                     //liste des racines
     List<Interval> res = new ArrayList<Interval>();     //liste du retour qui contiendra les intervals
     Interval a = new Interval();                    //interval à moduler pour pouvoire incrémenter la liste
     int num = 0;              //indice de la derniere valeure aoutée, est impair si 'linterval nest pas fermé'
@@ -368,18 +368,18 @@ public class Polynome{          //ajouter un tableau de signes / var / les deux 
   }
   
   public List<Interval> superieur(Polynome k){
-      return this.moins(k).positif();
+      return this.minus(k).positif();
   }
   
   public List<Interval> croissant(){
-      return this.derivee().positif();// f est croissante si f'(x) > 0
+      return this.derivate().positif();// f est croissante si f'(x) > 0
   }
   
   public List<Interval> convexe(){
-      return this.derivee().derivee().positif();// f est convexe si f''(x) > 0
+      return this.derivate().derivate().positif();// f est convexe si f''(x) > 0
   }
   
-  boolean pair(){                                                                   //pair <=> f(x) = f(-x)
+  boolean even(){                                                                   //pair <=> f(x) = f(-x)
       double limite = Math.min(Math.abs(X_MIN), Math.abs(X_MAX));
       for(double k = 0 ; k < limite ; k += PRECISION*100){
           if(Math.round(im(k)*100)/100 > Math.round(im(-k)*100)/100 + PRECISION || Math.round(im(k) *100)/100< Math.round(im(-k)*100)/100 - PRECISION){
@@ -390,7 +390,7 @@ public class Polynome{          //ajouter un tableau de signes / var / les deux 
       return true;
   }
   
-  boolean impair(){                                                                 //impair <=> f(-x) = -f(x)
+  boolean nonEven(){                                                                 //impair <=> f(-x) = -f(x)
         double limite = Math.min(Math.abs(X_MIN), Math.abs(X_MAX));
         for(double k = 0 ; k < limite ; k += PRECISION*100){
           if(Math.round(im(-k)*100)/100 > Math.round(-im(k)*100)/100 + PRECISION || Math.round(im(-k) *100)/100< Math.round(-im(k)*100)/100 - PRECISION){
@@ -401,7 +401,7 @@ public class Polynome{          //ajouter un tableau de signes / var / les deux 
       return true;
   }
   
-  public static Polynome regLin(List<Point> l){//le degré du polynome sera l.size() - 1
+  public static Polynome regression(List<Point> l){//le degré du polynome sera l.size() - 1
     Polynome res = new Polynome();
     
     
@@ -421,37 +421,14 @@ public class Polynome{          //ajouter un tableau de signes / var / les deux 
     for(int i = 0 ; i < sys.length -1; i++){
       for(int j = 0 ; j < sys[0].length -1 ;j++){     //j ne va pas jusqu'au bout car la derniere colonne est utilisée pour stocker les ordonnées
           sys[i][j] = Math.pow(l.get(i).getAbs(), l.size()-1 -j);
-        //System.out.printf("(%d;%d)", i, j);
       }
       sys[i][sys[0].length -1] = -l.get(i).getOrd();
-      //System.out.printf("(%d;%d)", i, sys[0].length -1);
-      //System.out.println("");
     }
-             // sys[i][j] = Math.pow(l.get(i).getAbs(), l.size()-1 -j);
-      //sys[i][sys[0].length - 2] = -l.get(i).getOrd();
-
-/*affichage tableau : 
-    for(int i = 0 ; i < sys.length ; i++){
-      for(int j = 0 ; j < sys[0].length ;j++){//j ne va pas jusqu'au bout car la derniere colonne est utilisée pour stocker les ordonnées
-       System.out.printf("%f\t", sys[i][j]);
-      }
-      System.out.printf("\n");
-    }
-*/
-
-      // System.out.println("coeff " + sys[i][sys[0].length - 2] + " mis à " + i + " ; " + (sys[0].length - 2));
-       // System.out.println("coeff " + sys[i][j] + " mis à " + i + " ; " + j + " puissance = " + (l.size()-1 -j));
     SystemL s = new SystemL(sys);
-    //System.out.println(s);
-  
     s.echelloner();
-    //System.out.println(s);
-    
     List<Double> rep = new ArrayList<Double>();
     rep = s.solution();
 
-    //System.out.println(rep);
-    
     for(int i = 0 ; i < rep.size() ; i++){
       res.setCoef(i, rep.get(rep.size() - i-1));
     }
@@ -482,7 +459,7 @@ public class Polynome{          //ajouter un tableau de signes / var / les deux 
     int troncon_actuel = troncon_size;
     List<Interval> in = new ArrayList<Interval>();
     List<Double> rc = new ArrayList<Double>();
-    rc = racines();
+    rc = root());
     in = positif();
     System.out.println(rc);//récuperer les intervals ou la fonction est positive
     int troncons;
@@ -510,7 +487,6 @@ public class Polynome{          //ajouter un tableau de signes / var / les deux 
       espace(troncon_actuel, ' ');
       System.out.printf("%.2f", rc.get(i));
       troncon_actuel = troncon_size - compterChar(rc.get(i))/2;
-      
     }
     
     troncon_actuel -= compterChar(X_MAX)+1;
