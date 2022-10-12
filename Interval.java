@@ -1,8 +1,8 @@
 public class Interval{
   //attributs : 
   private double a, b;
-  private boolean takeA, takeB, union;//take signifie si la valeur est incluse dans l'interval
-  //private Interval union; //l'interval union est égaal à {vide} si pas d'union prend une valeur de l'interval suivant et est appelable récursivement
+  private boolean takeA, takeB;              //take signifie si la valeur est incluse dans l'interval
+                                                    //private Interval union; //l'interval union est égaal à {vide} si pas d'union prend une valeur de l'interval suivant et est appelable récursivement
   
   //constructeurs : 
   public Interval(){
@@ -10,7 +10,6 @@ public class Interval{
     b = 0;
     takeA = true;
     takeB = true;
-    //union = new Interval();
   }
   
   public Interval(double x, double y){
@@ -23,7 +22,6 @@ public class Interval{
     }
     takeA = true;
     takeB = true;
-    //union = new Interval();
   }
   
   public Interval(double x, double y, boolean tA, boolean tB ){
@@ -38,7 +36,6 @@ public class Interval{
       takeA = tA;
       takeB = tB;
     }
-    //union = new Interval();
   }
   
   public Interval(Interval i){
@@ -69,9 +66,6 @@ public class Interval{
     }else{
       res += "[";
     }
-    /*if(union.vide()){
-      return res;       //s'il n'y a pas d'union, ne pas la chercher
-    }*/
     return res;
   }
   
@@ -94,7 +88,7 @@ public class Interval{
   }
   
   public void setInterval(double x, double y){
-    if(x > y){//au cas ou les arguments sont passés dans le mauvais ordre
+    if(x > y){      //au cas ou les arguments sont passés dans le mauvais ordre
       b = x;
       a = y;
     }else{
@@ -104,7 +98,7 @@ public class Interval{
   }
     
   public void setInterval(double x, double y, boolean tA, boolean tB){
-    if(x > y){//au cas ou les arguments sont passés dans le mauvais ordre
+    if(x > y){      //au cas ou les arguments sont passés dans le mauvais ordre
       b = x;
       a = y;
       takeA = tB;
@@ -133,7 +127,7 @@ public class Interval{
     return takeB;
   }
   
-  public boolean vide(){//retourne si l'interval est vide
+  public boolean empty(){//retourne si l'interval est vide
     return a == b && takeB == false && takeA == false;
   }
   
@@ -143,7 +137,7 @@ public class Interval{
 //méthode union, à méditer :....
 
 /*public void union(Interval k){    //d'abord vérifier si c'est vraiment nécessaire d'ajouter un deuxieme interval (au lieu d'agrandir l'interval actuel)
-    if(k.vide()){
+    if(k.empty()){
       return this;//pas d'union nécessaire si k est vide;
     }
     boolean disjoint = a > k.getSup() || b < k.getMin() || (a = k.getSup() && takeA == false && k.supTake() == false) || (b = k.getInf() && takeB == false && k.infTake() == false);//4 cas ou les intervals sont disjoints
