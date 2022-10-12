@@ -1,22 +1,22 @@
 import java.util.*;
-public class SystemL{//UTILISER DES MATRICES POUR RESOUDRE + PLUS SIMPLE
+public class SystemL{           //UTILISER DES MATRICES POUR RESOUDRE + PLUS SIMPLEMENT
     //attributs :
     private double c[][]; // double tableau pour stocher les coefficients, l'opposé de la derniere case designe le nombrer auquel la ligne doit être égale /ou plutot {..... + c[i][length] = 0 
-    private List<String> inconnues = new ArrayList<>(Arrays.asList("a", "b", "c", "d", "e", "f", "g","h","i","j","k","l", "m", "n", "o", "p", "q", "r", "s", "t"));//20 inconnues
+    private List<String> inconnues = new ArrayList<>(Arrays.asList("a", "b", "c", "d", "e", "f", "g","h","i","j","k","l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"));//inconnues pour le toString()
     private int nbL, nbC; //nombre de lignes et colonnes -1 à chaque fois
 
 
     //constructeurs :
    
     public SystemL(double[][] k){
-        if(k[0].length-1 > k.length){         //si le nombre de coef esty superieur au nb de lignes, solutions infinies...
-            System.out.print("Systeme lie");
+        if(k[0].length-1 > k.length){         //si le nombre de coef est superieur au nb de lignes, solutions infinies...
+            System.out.print("Systeme lié");
             c = new double[0][0];
             return;
         }
         c = new double[k.length][k[0].length];
         for(int i = 0 ; i < k.length ; i++){
-            for(int j = 0 ; j < k[i].length ; j++){ //k[0] aurait du etre correct car les lignes doivent faire la meme taille (coefficients = 0 sinon)
+            for(int j = 0 ; j < k[i].length ; j++){
                 c[i][j] = k[i][j];
             }
         }
@@ -24,13 +24,13 @@ public class SystemL{//UTILISER DES MATRICES POUR RESOUDRE + PLUS SIMPLE
         nbL = k.length - 2;
     }
     
-    //accesseurs :
+    //accesseur :
     
     public String toString(){
         String res = "";
         for(int i = 0 ; i <= nbL ; i++){
             res += "{";
-            for(int j = 0 ; j < nbC -1; j++){ //k[0] aurait du etre correct car les lignes doivent faire la meme taille (coefficients = 0 sinon)
+            for(int j = 0 ; j < nbC -1; j++){
                 res += c[i][j] + "*" + inconnues.get(j) + " + ";
             }
             res += c[i][nbC -1] + "*" + inconnues.get(nbC-1) + " + " + (c[i][nbC])  + " = 0\n";
@@ -39,7 +39,7 @@ public class SystemL{//UTILISER DES MATRICES POUR RESOUDRE + PLUS SIMPLE
     }
     
     //méthodes :
-    public void supprimerCol(int n){
+    public void deleteCol(int n){supprimerCol(
       if(n < 0 || n > nbC){
         System.out.println("impossible de supprimer la colonne " + n);
         return;
@@ -54,7 +54,7 @@ public class SystemL{//UTILISER DES MATRICES POUR RESOUDRE + PLUS SIMPLE
       nbC--; //le nombre de colonnes décrémente de 1
     }
     
-    public void supprimerLigne(int n){
+    public void deleteLine(int n){
       if(n < 0 || n > nbL){
         System.out.println("impossible de supprimer la ligne " + n);
         return;
@@ -67,7 +67,7 @@ public class SystemL{//UTILISER DES MATRICES POUR RESOUDRE + PLUS SIMPLE
       nbL--;
     }
     
-    public void multiplierLigne(int n, double x){
+    public void multLine(int n, double x){
       if(n < 0 || n > nbL){
         System.out.println("impossible de multiplier la ligne " + n + " par " + x);
         return;
@@ -77,7 +77,7 @@ public class SystemL{//UTILISER DES MATRICES POUR RESOUDRE + PLUS SIMPLE
       }
     }
     
-    public void swapLigne(int dest, int src){
+    public void swapLine(int dest, int src){
       if(dest < 0 || dest > nbL){
         System.out.println("impossible d'echanger la ligne " + dest +" par " + src);
         return;
@@ -94,11 +94,11 @@ public class SystemL{//UTILISER DES MATRICES POUR RESOUDRE + PLUS SIMPLE
       }
     }
     
-    public void addLigne(int dest, int src, double coef){ //<=>  L(dest) <- L(dest) + coef * L(source)
+    public void addLine(int dest, int src, double coef){ //<=>  L(dest) <- L(dest) + coef * L(source)
       if(coef == 0){
         return;//pas de modif à faire si on multiplie la ligne par 0
       }
-      if(dest < 0 || dest > nbL){
+      if(dest < 0 || dest > nbL){addLigne(
         System.out.println("impossible d'additionner la ligne " + dest + " " + coef +" fois par " + src);
         return;
       }
@@ -111,7 +111,7 @@ public class SystemL{//UTILISER DES MATRICES POUR RESOUDRE + PLUS SIMPLE
       }
     }
     
-    public void supprimerLigneVide(){
+    public void deleteEmptyLine(){
       List<Integer> l = new ArrayList<Integer>(); //stocker le n° des lignes vides
       boolean vide;
       for(int i = 0 ; i <= nbL ; i++){
@@ -124,11 +124,11 @@ public class SystemL{//UTILISER DES MATRICES POUR RESOUDRE + PLUS SIMPLE
         }
       }
       for(int i = l.size() -1 ; i >= 0 ; i--){
-        supprimerLigne(l.get(i));
+        deleteLine(l.get(i));
       }
     }
     
-    public void supprimerColVide(){
+    public void deleteEmptyCol(){
       List<Integer> l = new ArrayList<Integer>(); //stocker le n° des colonnes vides
       boolean vide;
       for(int j = 0 ; j <= nbC ; j++){
@@ -141,7 +141,7 @@ public class SystemL{//UTILISER DES MATRICES POUR RESOUDRE + PLUS SIMPLE
         }
       }
       for(int i = l.size() -1 ; i >= 0 ; i--){
-        supprimerCol(l.get(i));
+        deleteCol(l.get(i));
       }
     }
     
@@ -149,11 +149,10 @@ public class SystemL{//UTILISER DES MATRICES POUR RESOUDRE + PLUS SIMPLE
     
     //solution :
     
-    public void echelloner(){                 //méthode de gauss
-       // List<Double> r = new ArrayList<Double>();   //stocker les réponses
+    public void echelloner(){                
          //réduire la taille du systeme si des lignes/colonnes sont inutiles
-      supprimerColVide();
-      supprimerLigneVide();
+      deleteEmptyCol();
+      deleteEmptyLine();
       int pivot;
       
       for(int k = 0  ; k < nbL ; k++){//il faut repeter la boucle principale n-2 fois (soit nbL -1)
@@ -162,35 +161,34 @@ public class SystemL{//UTILISER DES MATRICES POUR RESOUDRE + PLUS SIMPLE
         
         pivot = k;
         
-        while(c[pivot][k] == 0){//tant que le coef qui fait office de début de ligne est égal à 0 on cherche en dessous pour trouver le pivot
-            pivot++;      //trouver pivot
+        while(c[pivot][k] == 0){    //tant que le coef qui fait office de début de ligne est égal à 0 on cherche en dessous pour trouver le pivot
+            pivot++;                //trouver pivot
           }
           
-        //System.out.println("le pivot au rang " + k + " est " + pivot);
+                                    //System.out.println("le pivot au rang " + k + " est " + pivot);
         if(pivot != k){
-            swapLigne(k, pivot);    //mettre le pivot en tête du système
+            swapLine(k, pivot);    //mettre le pivot en tête du système
             pivot = k;
           }
         
-        multiplierLigne(pivot, 1/c[pivot][k]);  //le premier coef du pivot doit être 1
+        multLine(pivot, 1/c[pivot][k]);         //le premier coef du pivot doit être 1
         
         for(int l = k+1 ; l <= nbL ; l++){
-          addLigne(l, pivot, -c[l][k]);   //echelloner les lignes en dessous
+          addLine(l, pivot, -c[l][k]);          //echelloner les lignes en dessous
           }
-        supprimerColVide();
-        supprimerLigneVide(); //re-supprimer les lignes/colonnes vides permet de retirer si jamais certainnes lignes sont liées
+        deleteEmptyCol();
+        deleteEmptyLine();                      //re-supprimer les lignes/colonnes vides permet de retirer si jamais certainnes lignes sont liées
         }
     }
     
     
     public List<Double> solution(){
       List<Double> sol = new ArrayList<Double>();
-      
-      //résoudre la derniere ligne "à la main":
+                                                            //résoudre la derniere ligne "à la main":
       sol.add(-c[nbL][nbC]/c[nbL][nbC - 1]);
       double r = 0;
-      for(int l = nbL-1 ; l >= 0 ; l--){//principe de la remontée en partant du bas    ;   l est le n° de ligne sur laquelle on travaille
-        r = -c[l][nbC]; // faire passer le terme constant en negatif
+      for(int l = nbL-1 ; l >= 0 ; l--){                    //principe de la remontée en partant du bas    ;   l est le n° de ligne sur laquelle on travaille
+        r = -c[l][nbC];                                     // faire passer le terme constant en negatif
         //System.out.println("ligne " + l + " avant multiplication des coefficients, le resultat est egal a "+ r);
         for(int b = nbL ; b > l ; b--){
           r -= sol.get(nbL - b)*c[l][b]; 
@@ -201,23 +199,11 @@ public class SystemL{//UTILISER DES MATRICES POUR RESOUDRE + PLUS SIMPLE
         sol.add(r);
       }
       if(sol.size() == nbC){
-        Collections.reverse(sol);//renverser car on part de la fin avec le principe de la remontée
+        Collections.reverse(sol);                           //renverser car on part de la fin avec le principe de la remontée
         return sol; 
       }
-      System.out.println("systeme insolvable");     //si le nombre de solutions ne coincide pas avec le nombre d'inconnues, on abaandonne
+      System.out.println("systeme insolvable");             //si le nombre de solutions ne coincide pas avec le nombre d'inconnues, on abaandonne
       sol.clear();
       return sol;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-}
-
-
-
+}   
