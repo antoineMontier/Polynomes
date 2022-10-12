@@ -96,7 +96,7 @@ public class SystemL{           //UTILISER DES MATRICES POUR RESOUDRE + PLUS SIM
     
     public void addLine(int dest, int src, double coef){ //<=>  L(dest) <- L(dest) + coef * L(source)
       if(coef == 0){
-        return;//pas de modif à faire si on multiplie la ligne par 0
+        return;                     //pas de modif à faire si on multiplie la ligne par 0
       }
       if(dest < 0 || dest > nbL){
         System.out.println("impossible d'additionner la ligne " + dest + " " + coef +" fois par " + src);
@@ -105,22 +105,22 @@ public class SystemL{           //UTILISER DES MATRICES POUR RESOUDRE + PLUS SIM
       if(src < 0 || src > nbL){
         System.out.println("impossible d'additionner la ligne " + dest + " " + coef +" fois par " + src);
         return;
-      }
+      }   
       for(int j = 0 ; j <=nbC ; j++){
         c[dest][j] += coef*c[src][j];
       }
     }
     
     public void deleteEmptyLine(){
-      List<Integer> l = new ArrayList<Integer>(); //stocker le n° des lignes vides
+      List<Integer> l = new ArrayList<Integer>();   //stocker le n° des lignes vides
       boolean vide;
       for(int i = 0 ; i <= nbL ; i++){
-        vide = true;//vide est vrai au debut de l'analyse de chaque ligne
+        vide = true;                                //vide est vrai au debut de l'analyse de chaque ligne
         for(int j = 0 ; (j <= nbC) && vide ; j++){
             vide = vide && (c[i][j] == 0);
         }
         if(vide){
-          l.add(i);//ajouter i si la ligne i est vide
+          l.add(i);                                 //ajouter i si la ligne i est vide
         }
       }
       for(int i = l.size() -1 ; i >= 0 ; i--){
