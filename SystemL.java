@@ -39,7 +39,7 @@ public class SystemL{           //UTILISER DES MATRICES POUR RESOUDRE + PLUS SIM
     }
     
     //méthodes :
-    public void deleteCol(int n){supprimerCol(
+    public void deleteCol(int n){
       if(n < 0 || n > nbC){
         System.out.println("impossible de supprimer la colonne " + n);
         return;
@@ -98,7 +98,7 @@ public class SystemL{           //UTILISER DES MATRICES POUR RESOUDRE + PLUS SIM
       if(coef == 0){
         return;//pas de modif à faire si on multiplie la ligne par 0
       }
-      if(dest < 0 || dest > nbL){addLigne(
+      if(dest < 0 || dest > nbL){
         System.out.println("impossible d'additionner la ligne " + dest + " " + coef +" fois par " + src);
         return;
       }
