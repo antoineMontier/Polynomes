@@ -1,16 +1,16 @@
 import java.util.*;
-public class SystemL{           //UTILISER DES MATRICES POUR RESOUDRE + PLUS SIMPLEMENT
-    //attributs :
-    private double c[][]; // double tableau pour stocher les coefficients, l'opposé de la derniere case designe le nombrer auquel la ligne doit être égale /ou plutot {..... + c[i][length] = 0 
+public class SystemL{           //i'm thinking about doing the same with matrix
+    //parameters :
+    private double c[][]; // array of double to keep the coefficient 
     private List<String> inconnues = new ArrayList<>(Arrays.asList("a", "b", "c", "d", "e", "f", "g","h","i","j","k","l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"));//inconnues pour le toString()
-    private int nbL, nbC; //nombre de lignes et colonnes -1 à chaque fois
+    private int nbL, nbC; //number of lines & columns -1 each times
 
 
-    //constructeurs :
+    //build :
    
     public SystemL(double[][] k){
-        if(k[0].length-1 > k.length){         //si le nombre de coef est superieur au nb de lignes, solutions infinies...
-            System.out.print("Systeme lié");
+        if(k[0].length-1 > k.length){         //if there are more coefficients than lines, the solutions will be infinity... 
+            System.out.print("System linked");
             c = new double[0][0];
             return;
         }
@@ -24,7 +24,7 @@ public class SystemL{           //UTILISER DES MATRICES POUR RESOUDRE + PLUS SIM
         nbL = k.length - 2;
     }
     
-    //accesseur :
+    //access :
     
     public String toString(){
         String res = "";
@@ -41,26 +41,25 @@ public class SystemL{           //UTILISER DES MATRICES POUR RESOUDRE + PLUS SIM
     //méthodes :
     public void deleteCol(int n){
       if(n < 0 || n > nbC){
-        System.out.println("impossible de supprimer la colonne " + n);
+        System.out.println("impossible to delete the column " + n);
         return;
       }
-      for(int i = 0 ; i <= nbL ; i++){//sélectionner toutes les lignes
+      for(int i = 0 ; i <= nbL ; i++){//selection of all the lines
         for(int j = n+1 ; j <= nbC ; j++){
-          //System.out.println("dans la ligne " + i + " j'écrase le coef n°"+ (j-1)+" en le remplacant par le coef n°" + j);
           c[i][j - 1] = c[i][j];
         }
       }
       inconnues.remove(n);
-      nbC--; //le nombre de colonnes décrémente de 1
+      nbC--; //the column number decrease by 1
     }
     
     public void deleteLine(int n){
       if(n < 0 || n > nbL){
-        System.out.println("impossible de supprimer la ligne " + n);
+        System.out.println("impossible to delete the line " + n);
         return;
       }
-      for(int j = 0 ; j <= nbC ; j++){//sélectionner toutes les colonnes
-        for(int i = n+1 ; i <= nbL ; i++){ // sélectionner les bonnes lignes
+      for(int j = 0 ; j <= nbC ; j++){//column selection
+        for(int i = n+1 ; i <= nbL ; i++){ //line selection
           c[i-1][j] = c[i][j];
         }
       }
@@ -69,7 +68,7 @@ public class SystemL{           //UTILISER DES MATRICES POUR RESOUDRE + PLUS SIM
     
     public void multLine(int n, double x){
       if(n < 0 || n > nbL){
-        System.out.println("impossible de multiplier la ligne " + n + " par " + x);
+        System.out.println("impossible to multiply the line " + n + " by " + x);
         return;
       }
       for(int j = 0 ; j <= nbC ; j++){
@@ -79,11 +78,11 @@ public class SystemL{           //UTILISER DES MATRICES POUR RESOUDRE + PLUS SIM
     
     public void swapLine(int dest, int src){
       if(dest < 0 || dest > nbL){
-        System.out.println("impossible d'echanger la ligne " + dest +" par " + src);
+        System.out.println("impossible to swap line " + dest +" and " + src);
         return;
       }
       if(src < 0 || src > nbL){
-        System.out.println("impossible d'echanger la ligne " + dest +" par " + src);
+        System.out.println("impossible to swap line " + dest +" and " + src);
         return;
       }
       double tmp;
@@ -96,14 +95,14 @@ public class SystemL{           //UTILISER DES MATRICES POUR RESOUDRE + PLUS SIM
     
     public void addLine(int dest, int src, double coef){ //<=>  L(dest) <- L(dest) + coef * L(source)
       if(coef == 0){
-        return;                     //pas de modif à faire si on multiplie la ligne par 0
+        return;                     //no modifications if we multiply the line by 0
       }
       if(dest < 0 || dest > nbL){
-        System.out.println("impossible d'additionner la ligne " + dest + " " + coef +" fois par " + src);
+        System.out.println("impossible to add line " + dest + " " + coef +" time by " + src);
         return;
       }
       if(src < 0 || src > nbL){
-        System.out.println("impossible d'additionner la ligne " + dest + " " + coef +" fois par " + src);
+        System.out.println("impossible to add line " + dest + " " + coef +" time by " + src);
         return;
       }   
       for(int j = 0 ; j <=nbC ; j++){
@@ -112,15 +111,15 @@ public class SystemL{           //UTILISER DES MATRICES POUR RESOUDRE + PLUS SIM
     }
     
     public void deleteEmptyLine(){
-      List<Integer> l = new ArrayList<Integer>();   //stocker le n° des lignes vides
-      boolean vide;
+      List<Integer> l = new ArrayList<Integer>();   //keep the index of empty lines
+      boolean empty;
       for(int i = 0 ; i <= nbL ; i++){
-        vide = true;                                //vide est vrai au debut de l'analyse de chaque ligne
-        for(int j = 0 ; (j <= nbC) && vide ; j++){
-            vide = vide && (c[i][j] == 0);
+        empty = true;                                //empty set to true before the analysis of every line
+        for(int j = 0 ; (j <= nbC) && empty ; j++){
+            empty = empty && (c[i][j] == 0);
         }
-        if(vide){
-          l.add(i);                                 //ajouter i si la ligne i est vide
+        if(empty){
+          l.add(i);                                 //add i if line n°i is empty
         }
       }
       for(int i = l.size() -1 ; i >= 0 ; i--){
@@ -129,15 +128,15 @@ public class SystemL{           //UTILISER DES MATRICES POUR RESOUDRE + PLUS SIM
     }
     
     public void deleteEmptyCol(){
-      List<Integer> l = new ArrayList<Integer>(); //stocker le n° des colonnes vides
-      boolean vide;
+      List<Integer> l = new ArrayList<Integer>(); //keep the index of empty columns
+      boolean empty;
       for(int j = 0 ; j <= nbC ; j++){
-        vide = true;//vide est vrai au debut de l'analyse de chaque colonne
-        for(int i = 0 ; (i <= nbL) && vide ; i++){
-            vide = vide && (c[i][j] == 0);
+        empty = true;//empty set to true before the analysis of every column
+        for(int i = 0 ; (i <= nbL) && empty ; i++){
+            empty = empty && (c[i][j] == 0);
         }
-        if(vide){
-          l.add(j);//ajouter j si la colonne j est vide
+        if(empty){
+          l.add(j);//add j if line n°j is empty
         }
       }
       for(int i = l.size() -1 ; i >= 0 ; i--){
@@ -149,35 +148,34 @@ public class SystemL{           //UTILISER DES MATRICES POUR RESOUDRE + PLUS SIM
     
     //solution :
     
-    public void echelloner(){                
-         //réduire la taille du systeme si des lignes/colonnes sont inutiles
+    public void scale(){                
+         //reduce system's size if lines or columns are empty
       deleteEmptyCol();
       deleteEmptyLine();
       int pivot;
       
-      for(int k = 0  ; k < nbL ; k++){//il faut repeter la boucle principale n-2 fois (soit nbL -1)
+      for(int k = 0  ; k < nbL ; k++){//we need to repeat the principal loop n-2 times (that's nbL -1)
       
         
         
         pivot = k;
         
-        while(c[pivot][k] == 0){    //tant que le coef qui fait office de début de ligne est égal à 0 on cherche en dessous pour trouver le pivot
-            pivot++;                //trouver pivot
+        while(c[pivot][k] == 0){    //we seach line by line a good pivot (with a coefficient != 0)
+            pivot++;                //increase pivot value to access the next line
           }
           
-                                    //System.out.println("le pivot au rang " + k + " est " + pivot);
         if(pivot != k){
-            swapLine(k, pivot);    //mettre le pivot en tête du système
+            swapLine(k, pivot);    //put pivot's line on the top of the system (by swapping)
             pivot = k;
           }
         
-        multLine(pivot, 1/c[pivot][k]);         //le premier coef du pivot doit être 1
+        multLine(pivot, 1/c[pivot][k]);         //transform pivot's line to make a 1 appear as the pivot's coefficient
         
         for(int l = k+1 ; l <= nbL ; l++){
-          addLine(l, pivot, -c[l][k]);          //echelloner les lignes en dessous
+          addLine(l, pivot, -c[l][k]);          //scale les lignes en dessous
           }
         deleteEmptyCol();
-        deleteEmptyLine();                      //re-supprimer les lignes/colonnes vides permet de retirer si jamais certainnes lignes sont liées
+        deleteEmptyLine();                      //re-supprimer les lignes/colonnes emptys permet de retirer si jamais certainnes lignes sont liées
         }
     }
     
