@@ -1,10 +1,12 @@
 public class Interval{
-  //attributs : 
-  private double a, b;
-  private boolean takeA, takeB;              //take signifie si la valeur est incluse dans l'interval
-                                                    //private Interval union; //l'interval union est égaal à {vide} si pas d'union prend une valeur de l'interval suivant et est appelable récursivement
   
-  //constructeurs : 
+  //parameters : 
+  
+  private double a, b;
+  private boolean takeA, takeB;              //take means if the value is inside the interval
+  
+  //builder : 
+  
   public Interval(){
     a = 0;
     b = 0;
@@ -13,7 +15,7 @@ public class Interval{
   }
   
   public Interval(double x, double y){
-    if(x > y){//au cas ou les arguments sont passés dans le mauvais ordre
+    if(x > y){//in case the arguments are passed in the wrong order
       b = x;
       a = y;
     }else{
@@ -25,7 +27,7 @@ public class Interval{
   }
   
   public Interval(double x, double y, boolean tA, boolean tB ){
-    if(x > y){//au cas ou les arguments sont passés dans le mauvais ordre
+    if(x > y){//in case the arguments are passed in the wrong order
       b = x;
       a = y;
       takeA = tB;
@@ -48,7 +50,7 @@ public class Interval{
   //acceseurs :
   
   public String toString(){
-    if(a == b){                   //1e cas : les bornes sont égales
+    if(a == b){                   //1st case: the bounds are equal
       if(takeB && takeA){
         return"{" + a + "}";
       }
@@ -88,7 +90,7 @@ public class Interval{
   }
   
   public void setInterval(double x, double y){
-    if(x > y){      //au cas ou les arguments sont passés dans le mauvais ordre
+    if(x > y){
       b = x;
       a = y;
     }else{
@@ -98,7 +100,7 @@ public class Interval{
   }
     
   public void setInterval(double x, double y, boolean tA, boolean tB){
-    if(x > y){      //au cas ou les arguments sont passés dans le mauvais ordre
+    if(x > y){
       b = x;
       a = y;
       takeA = tB;
@@ -111,44 +113,44 @@ public class Interval{
     }
   }
   
-  public double getInf(){//renvoies la borne inférieure de l'interval
+  public double getInf(){//returns the lower bound of the interval
       return a;
   }
   
-  public double getSup(){//renvoies la borne supérieure de l'interval
+  public double getSup(){//returns the upper bound of the interval
     return b;
   }
   
-  public boolean infTake(){//renvoies si la borne inférieure de l'interval est comprise
+  public boolean infTake(){//returns if the lower bound of the interval is inside the interval
     return takeA;
   }
   
-  public boolean supTake(){//renvoies si la borne supérieure de l'interval est comprise
+  public boolean supTake(){//returns if the upper bound of the interval is inside the interval
     return takeB;
   }
   
-  public boolean empty(){//retourne si l'interval est vide
+  public boolean empty(){//returns if the interval is empty
     return a == b && takeB == false && takeA == false;
   }
   
   
 }
 
-//méthode union, à méditer :....
+//union methode, to meditate :....
 
-/*public void union(Interval k){    //d'abord vérifier si c'est vraiment nécessaire d'ajouter un deuxieme interval (au lieu d'agrandir l'interval actuel)
+/*public void union(Interval k){    //first check if it is really necessary to add a second interval (instead of enlarging the current interval)
     if(k.empty()){
-      return this;//pas d'union nécessaire si k est vide;
+      return this;//no union needed if k is empty;
     }
     boolean disjoint = a > k.getSup() || b < k.getMin() || (a = k.getSup() && takeA == false && k.supTake() == false) || (b = k.getInf() && takeB == false && k.infTake() == false);//4 cas ou les intervals sont disjoints
     Interval res = new Interval;
-    if(!disjoint){                  //si les deux intervals ont au moins un élt en commun
-      if(a < k.getInf()){           // mettre la borne inf de l'union comme borne min des deux intervals
+    if(!disjoint){                  //if the two intervals have at least one element in common
+      if(a < k.getInf()){           // put the lower bound of the union as the min bound of the two intervals
         res.setInf(a, takeA);
       }else if(a > k.getInf()){
         res.setInf(k.getInf(), k.infTake());
       }else{
-        res.setInf(a, k.infTake()||takeA);          //si le min est égal, on change juste l'inclusion de la brone min si nécessaire
+        res.setInf(a, k.infTake()||takeA);          //if the min is equal, we just change the inclusion of the brone min if necessary
       }
       
       if(b > k.getSup()){               //borne sup
