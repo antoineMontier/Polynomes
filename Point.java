@@ -1,6 +1,6 @@
 public class Point{
 
-  //constructeur :
+  //builder :
 
   public Point(){
     abs = 0;
@@ -13,12 +13,12 @@ public class Point{
   }
 
 
-  //attributs :
+  //parameters :
 
   public double abs = 0;
   public double ord = 0;
 
-  //acceseurs :
+  //access :
 
   public double getAbs(){
     return abs;
